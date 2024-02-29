@@ -17,4 +17,10 @@ class NewsRepositoryImpl @Inject constructor(
       flow {emit( api.getNewsList(source) ) }
     }
   }
+
+  override suspend fun searchNews(s: String): Flow<ApiArticlesResponse> {
+    return withContext(Dispatchers.IO) {
+      flow {emit( api.searchNews(s) ) }
+    }
+  }
 }

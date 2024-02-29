@@ -17,7 +17,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class NewsCategoryFragment: Fragment(R.layout.layout_fragment_news_list) {
 
-
   private val viewBinding: LayoutNewsCategoryBinding
     get() = _viewBinding!!
 
@@ -50,8 +49,7 @@ class NewsCategoryFragment: Fragment(R.layout.layout_fragment_news_list) {
 
     _viewBinding = LayoutNewsCategoryBinding.inflate(inflater, container, false)
     newsCategoryAdapter = NewsCategoryAdapter { category ->
-      //TODO: add parameter
-      val action = NewsCategoryFragmentDirections.actionNewsCategoryFragmentToSourcesFragment()
+      val action = NewsCategoryFragmentDirections.actionNewsCategoryFragmentToSourcesFragment(category.categoryName)
       findNavController().navigate(action)
     }
     newsCategoryAdapter?.submitList(category)

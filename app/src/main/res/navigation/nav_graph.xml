@@ -12,10 +12,11 @@
         tools:layout="@layout/layout_news_category" >
         <action
             android:id="@+id/action_newsCategoryFragment_to_sourcesFragment"
-            app:destination="@id/sourcesFragment" />
-        <argument
-            android:name="name"
-            app:argType="string" />
+            app:destination="@id/sourcesFragment" >
+            <argument
+                android:name="category"
+                app:argType="string" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/sourcesFragment"
@@ -23,14 +24,48 @@
         android:label="SourcesFragment" >
         <action
             android:id="@+id/action_sourcesFragment_to_newsListFragment"
-            app:destination="@id/newsListFragment" />
+            app:destination="@id/newsListFragment" >
+
+            <argument
+                android:name="source"
+                app:argType="string" />
+        </action>
+        <argument
+            android:name="category"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/newsListFragment"
         android:name="com.example.articleapp.ui.NewsListFragment"
-        android:label="NewsListFragment" />
+        android:label="NewsListFragment" >
+
+        <argument
+            android:name="source"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_newsListFragment_to_newsDetailFragment"
+            app:destination="@id/newsDetailFragment">
+
+            <argument
+                android:name="item"
+                app:argType="string" />
+        </action>
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.articleapp.ui.SearchFragment"
-        android:label="SearchFragment" />
+        android:label="SearchFragment" >
+        <action
+            android:id="@+id/action_searchFragment_to_newsDetailFragment"
+            app:destination="@id/newsDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newsDetailFragment"
+        android:name="com.example.articleapp.ui.NewsDetailFragment"
+        android:label="NewsDetailFragment" >
+
+        <argument
+            android:name="item"
+            app:argType="string" />
+    </fragment>
 </navigation>

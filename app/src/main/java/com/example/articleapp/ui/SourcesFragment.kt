@@ -10,6 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.articleapp.R
 import com.example.articleapp.data.remote.api.model.ArticlesResponse
@@ -26,6 +27,8 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SourcesFragment: Fragment(R.layout.layout_fragment_sources) {
+
+  private val navigationArgs: SourcesFragmentArgs by navArgs()
 
   private val viewBinding: LayoutFragmentSourcesBinding
     get() = _viewBinding!!
@@ -45,9 +48,9 @@ class SourcesFragment: Fragment(R.layout.layout_fragment_sources) {
     savedInstanceState: Bundle?
   ): View {
     _viewBinding = LayoutFragmentSourcesBinding.inflate(inflater, container, false)
-    sourcesAdapter = SourcesAdapter { category ->
-      //TODO: add parameter
-      val action = SourcesFragmentDirections.actionSourcesFragmentToNewsListFragment()
+    sourcesAdapter = SourcesAdapter { source ->
+
+      val action = SourcesFragmentDirections.actionSourcesFragmentToNewsListFragment(source.id.orEmpty())
       findNavController().navigate(action)
     }
 
@@ -56,7 +59,7 @@ class SourcesFragment: Fragment(R.layout.layout_fragment_sources) {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    val category = "business"
+    val category = navigationArgs.category
 
     viewModel.getSourcesByCategory(category)
     setupObserver(viewModel)

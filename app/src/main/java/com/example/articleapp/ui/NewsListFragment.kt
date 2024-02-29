@@ -9,6 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.articleapp.R
 import com.example.articleapp.data.remote.api.model.ArticlesResponse
@@ -23,6 +25,8 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class NewsListFragment: Fragment(R.layout.layout_fragment_news_list) {
+
+  private val navigationArgs: NewsListFragmentArgs by navArgs()
 
   private val viewBinding: LayoutFragmentNewsListBinding
     get() = _viewBinding!!
@@ -45,10 +49,13 @@ class NewsListFragment: Fragment(R.layout.layout_fragment_news_list) {
     inflater: LayoutInflater, container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View {
-    val source = "bbc-news"
+    val source = navigationArgs.source
 
     _viewBinding = LayoutFragmentNewsListBinding.inflate(inflater, container, false)
-    newsAdapter = NewsListAdapter()
+    newsAdapter = NewsListAdapter { item ->
+      val action = NewsListFragmentDirections.actionNewsListFragmentToNewsDetailFragment(item.url.orEmpty())
+      findNavController().navigate(action)
+    }
 
     viewModel.getNewsList(source)
     setupObserver(viewModel)
